@@ -11,6 +11,7 @@ source /usr/share/yunohost/helpers
 # Source common variables and helpers
 source ./_common.sh
 
+app=$YNH_APP_INSTANCE_NAME
 final_path=$(ynh_app_setting_get $app final_path)
 serviceuser=$(ynh_app_setting_get $app serviceuser)
 
