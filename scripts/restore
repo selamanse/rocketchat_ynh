@@ -5,7 +5,6 @@ set -eu
 # IMPORT GENERIC HELPERS
 #=================================================
 
-source ./_common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
@@ -74,4 +73,3 @@ sudo mongorestore ./dump
 #=================================================
 
 sudo systemctl start rocketchat.service
-waitforservice
