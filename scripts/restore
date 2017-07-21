@@ -5,6 +5,7 @@ set -eu
 # IMPORT GENERIC HELPERS
 #=================================================
 
+source ./_common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
@@ -26,16 +27,21 @@ domain=$(ynh_app_setting_get $app domain)
 path=$(ynh_app_setting_get $app path)
 rocketchat_version=$(ynh_app_setting_get $app rocketchat_version)
 final_path=$(ynh_app_setting_get $app final_path)
+serviceuser=$(ynh_app_setting_get $app serviceuser)
 
 # Check domain/path availability
-	sudo yunohost app checkurl "${domain}${path}" -a "$app" \
-	  || ynh_die
+sudo yunohost app checkurl "${domain}${path}" -a "$app" || ynh_die
 
 # Check destination directory
-	DESTDIR="/var/lib/$app"
-	[[ -d $final_path ]] && ynh_die \
-	"The destination directory '$final_path' already exists.\
-	 You should safely delete it before restoring this app."
+[[ -d $final_path ]] && ynh_die \
+"The destination directory '$final_path' already exists.\
+ You should safely delete it before restoring this app."
+
+# Create destination
+sudo mkdir -p $final_path
+
+# Create user
+sudo useradd -d "$final_path" -M $serviceuser
 
 #=================================================
 # STANDARD RESTORATION STEPS
@@ -43,17 +49,29 @@ final_path=$(ynh_app_setting_get $app final_path)
 # RESTORE THE NGINX CONFIGURATION
 #=================================================
 
-sudo cp -a nginx "/etc/nginx/conf.d/$domain.d/$app.conf"
+sudo cp -a "conf/nginx" "/etc/nginx/conf.d/$domain.d/$app.conf"
+sudo cp -a "conf/service" "/etc/nginx/conf.d/$domain.d/$app.conf"
+
+sudo systemctl daemon-reload
+sudo systemctl enable rocketchat.service
 
 #=================================================
 # RESTORE THE APP MAIN DIR
 #=================================================
 
-sudo mkdir -p $final_path
 sudo tar -xzf ./rocket.chat-$rocketchat_version.gtar -C $final_path --strip-components=1 bundle
+sudo cp -a ./rocket.chat-$rocketchat_version.gtar $final_path
+sudo chown -R $serviceuser: $final_path
 
 #=================================================
 # RESTORE THE MONGODB
 #=================================================
 
 sudo mongorestore ./dump
+
+#=================================================
+# START APP RELATED SERVICES
+#=================================================
+
+sudo systemctl start rocketchat.service
+waitforservice

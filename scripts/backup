@@ -5,6 +5,7 @@ set -eu
 # IMPORT GENERIC HELPERS
 #=================================================
 
+source ./_common.sh
 source /usr/share/yunohost/helpers
 
 #=================================================
@@ -16,7 +17,6 @@ app=$YNH_APP_INSTANCE_NAME
 final_path=$(ynh_app_setting_get $app final_path)
 domain=$(ynh_app_setting_get $app domain)
 rocketchat_version=$(ynh_app_setting_get $app rocketchat_version)
-db_pwd=$(ynh_app_setting_get $app mysqlpwd)
 
 #=================================================
 # STANDARD BACKUP STEPS
@@ -27,10 +27,11 @@ db_pwd=$(ynh_app_setting_get $app mysqlpwd)
 ynh_backup "$final_path/rocket.chat-$rocketchat_version.gtar" "rocket.chat-$rocketchat_version.gtar"
 
 #=================================================
-# BACKUP THE NGINX CONFIGURATION
+# BACKUP THE CONFIGURATION
 #=================================================
 
-ynh_backup "/etc/nginx/conf.d/$domain.d/$app.conf" "nginx"
+ynh_backup "/etc/systemd/system/$app.service" "conf/service"
+ynh_backup "/etc/nginx/conf.d/$domain.d/$app.conf" "conf/nginx"
 
 #=================================================
 # BACKUP THE MONGODB DATABASE
