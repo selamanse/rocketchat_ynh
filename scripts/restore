@@ -50,7 +50,7 @@ sudo cp -a nginx "/etc/nginx/conf.d/$domain.d/$app.conf"
 #=================================================
 
 sudo mkdir -p $final_path
-sudo tar -xzf $final_path/rocket.chat-$rocketchat_version.gtar -C $final_path --strip-components=1 bundle
+sudo tar -xzf ./rocket.chat-$rocketchat_version.gtar -C $final_path --strip-components=1 bundle
 
 #=================================================
 # RESTORE THE MONGODB
