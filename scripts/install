@@ -49,7 +49,9 @@ final_path="/var/lib/$app"
 ynh_app_setting_set $app node_version $NODE_VERSION
 ynh_app_setting_set $app rocketchat_version $ROCKETCHAT_VERSION
 ynh_app_setting_set $app serviceuser $serviceuser
+ynh_app_setting_set $app port $port
 ynh_app_setting_set $app final_path $final_path
+ynh_app_setting_set $app path $path
 ynh_app_setting_set $app is_public $is_public
 
 #Install dependencies

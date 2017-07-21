@@ -14,6 +14,8 @@ source ./_common.sh
 app=$YNH_APP_INSTANCE_NAME
 final_path=$(ynh_app_setting_get $app final_path)
 serviceuser=$(ynh_app_setting_get $app serviceuser)
+path=$(ynh_app_setting_get $app path)
+port=$(ynh_app_setting_get $app port)
 
 sudo systemctl stop rocketchat
 
