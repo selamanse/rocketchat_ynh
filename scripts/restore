@@ -48,8 +48,12 @@ sudo useradd -d "$final_path" -M $serviceuser
 #=================================================
 
 sudo cp -a "conf/nginx" "/etc/nginx/conf.d/$domain.d/$app.conf"
-sudo cp -a "conf/service" "/etc/systemd/system/rocketchat.service"
+sudo systemctl reload nginx
 
+#=================================================
+# RESTORE THE SYSTEMD CONFIGURATION
+#=================================================
+sudo cp -a "conf/service" "/etc/systemd/system/rocketchat.service"
 sudo systemctl daemon-reload
 sudo systemctl enable rocketchat
 
