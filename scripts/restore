@@ -56,4 +56,4 @@ sudo tar -xzf ./rocket.chat-$rocketchat_version.gtar -C $final_path --strip-comp
 # RESTORE THE MONGODB
 #=================================================
 
-sudo mongorestore --dbpath /var/lib/mongodb ./dump
+sudo mongorestore ./dump
