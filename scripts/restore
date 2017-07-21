@@ -23,18 +23,17 @@ ynh_abort_if_errors
 app=$YNH_APP_INSTANCE_NAME
 
 domain=$(ynh_app_setting_get $app domain)
-path_url=$(ynh_app_setting_get $app path)
+path=$(ynh_app_setting_get $app path)
 final_path=$(ynh_app_setting_get $app final_path)
-db_name=$(ynh_app_setting_get $app db_name)
 
 # Check domain/path availability
 	sudo yunohost app checkurl "${domain}${path}" -a "$app" \
 	  || ynh_die
 
 # Check destination directory
-	DESTDIR="/var/www/$app"
-	[[ -d $DESTDIR ]] && ynh_die \
-	"The destination directory '$DESTDIR' already exists.\
+	DESTDIR="/var/lib/$app"
+	[[ -d $final_path ]] && ynh_die \
+	"The destination directory '$final_path' already exists.\
 	 You should safely delete it before restoring this app."
 
 #=================================================

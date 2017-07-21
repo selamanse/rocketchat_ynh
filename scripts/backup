@@ -8,15 +8,6 @@ set -eu
 source /usr/share/yunohost/helpers
 
 #=================================================
-# GENERIC START
-#=================================================
-# MANAGE SCRIPT FAILURE
-#=================================================
-
-# Exit on command errors and treat access to unset variables as an error
-ynh_abort_if_errors
-
-#=================================================
 # LOAD SETTINGS
 #=================================================
 
