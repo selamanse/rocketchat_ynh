@@ -42,13 +42,13 @@ final_path=$(ynh_app_setting_get $app final_path)
 # RESTORE THE NGINX CONFIGURATION
 #=================================================
 
-ynh_restore_file "nginx"
+sudo cp -a nginx "/etc/nginx/conf.d/$domain.d/$app.conf"
 
 #=================================================
 # RESTORE THE APP MAIN DIR
 #=================================================
 
-ynh_restore_file "app"
+sudo cp -a app/. $final_path
 
 #=================================================
 # RESTORE THE MONGODB
