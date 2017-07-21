@@ -27,7 +27,7 @@ sudo curl -s -L -o $final_path/rocket.chat-latest.gtar "https://rocket.chat/rele
 sudo tar -xzf $final_path/rocket.chat-latest.gtar -C $final_path --strip-components=1 bundle
 sudo rm $final_path/rocket.chat-latest.gtar
 
-cd $final_path
+cd $final_path/programs/server/
 sudo npm install --production
 
 sudo chown -R $serviceuser: $final_path
