@@ -24,7 +24,6 @@ app=$YNH_APP_INSTANCE_NAME
 
 domain=$(ynh_app_setting_get $app domain)
 path=$(ynh_app_setting_get $app path)
-rocketchat_version=$(ynh_app_setting_get $app rocketchat_version)
 final_path=$(ynh_app_setting_get $app final_path)
 serviceuser=$(ynh_app_setting_get $app serviceuser)
 
@@ -58,8 +57,7 @@ sudo systemctl enable rocketchat
 # RESTORE THE APP MAIN DIR
 #=================================================
 
-sudo tar -xzf ./rocket.chat-$rocketchat_version.gtar -C $final_path --strip-components=1 bundle
-sudo cp -a ./rocket.chat-$rocketchat_version.gtar $final_path
+sudo tar -xzf ./rocket.chat.gtar -C $final_path
 sudo chown -R $serviceuser: $final_path
 
 #=================================================

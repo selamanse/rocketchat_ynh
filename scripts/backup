@@ -15,7 +15,6 @@ app=$YNH_APP_INSTANCE_NAME
 
 final_path=$(ynh_app_setting_get $app final_path)
 domain=$(ynh_app_setting_get $app domain)
-rocketchat_version=$(ynh_app_setting_get $app rocketchat_version)
 
 #=================================================
 # STANDARD BACKUP STEPS
@@ -23,7 +22,11 @@ rocketchat_version=$(ynh_app_setting_get $app rocketchat_version)
 # BACKUP THE APP MAIN DIR
 #=================================================
 
-ynh_backup "$final_path/rocket.chat-$rocketchat_version.gtar" "rocket.chat-$rocketchat_version.gtar"
+workdir=$(pwd)
+cd $final_path
+tar -czf $workdir/rocket.chat.gtar .
+cd $workdir
+ynh_backup ./rocket.chat.gtar
 
 #=================================================
 # BACKUP THE CONFIGURATION
