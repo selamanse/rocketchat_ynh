@@ -24,6 +24,7 @@ app=$YNH_APP_INSTANCE_NAME
 
 domain=$(ynh_app_setting_get $app domain)
 path=$(ynh_app_setting_get $app path)
+rocketchat_version=$(ynh_app_setting_get $app rocketchat_version)
 final_path=$(ynh_app_setting_get $app final_path)
 
 # Check domain/path availability
@@ -48,7 +49,8 @@ sudo cp -a nginx "/etc/nginx/conf.d/$domain.d/$app.conf"
 # RESTORE THE APP MAIN DIR
 #=================================================
 
-sudo cp -a app/. $final_path
+sudo mkdir -p $final_path
+sudo tar -xzf $final_path/rocket.chat-$rocketchat_version.gtar -C $final_path --strip-components=1 bundle
 
 #=================================================
 # RESTORE THE MONGODB

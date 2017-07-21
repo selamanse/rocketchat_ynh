@@ -15,7 +15,7 @@ app=$YNH_APP_INSTANCE_NAME
 
 final_path=$(ynh_app_setting_get $app final_path)
 domain=$(ynh_app_setting_get $app domain)
-db_name=$(ynh_app_setting_get $app db_name)
+rocketchat_version=$(ynh_app_setting_get $app rocketchat_version)
 db_pwd=$(ynh_app_setting_get $app mysqlpwd)
 
 #=================================================
@@ -24,7 +24,7 @@ db_pwd=$(ynh_app_setting_get $app mysqlpwd)
 # BACKUP THE APP MAIN DIR
 #=================================================
 
-ynh_backup "$final_path" "app"
+ynh_backup "$final_path/rocket.chat-$rocketchat_version.gtar"
 
 #=================================================
 # BACKUP THE NGINX CONFIGURATION

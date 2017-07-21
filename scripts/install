@@ -48,6 +48,8 @@ final_path="/var/lib/$app"
  You should safely delete it before installing this app."
 
 # Save specific settings
+ynh_app_setting_set $app node_version $NODE_VERSION
+ynh_app_setting_set $app rocketchat_version $ROCKETCHAT_VERSION
 ynh_app_setting_set $app serviceuser $serviceuser
 ynh_app_setting_set $app final_path $final_path
 ynh_app_setting_set $app is_public $is_public
@@ -97,7 +99,6 @@ sudo cp ../conf/nginx.conf "$nginx_conf"
 echo "Downloading rocket.chat-$ROCKETCHAT_VERSION.gtar from https://rocket.chat/releases/${ROCKETCHAT_VERSION}/download."
 sudo curl -s -L -o $final_path/rocket.chat-$ROCKETCHAT_VERSION.gtar "https://rocket.chat/releases/${ROCKETCHAT_VERSION}/download"
 sudo tar -xzf $final_path/rocket.chat-$ROCKETCHAT_VERSION.gtar -C $final_path --strip-components=1 bundle
-sudo rm -rf $final_path/rocket.chat-$ROCKETCHAT_VERSION.gtar
 
 cd $final_path/programs/server/
 
