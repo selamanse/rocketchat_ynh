@@ -18,7 +18,7 @@ install:
   - curl -L https://github.com/digitalocean/doctl/releases/download/v1.7.1/doctl-1.7.1-linux-amd64.tar.gz  | tar xz
   - DROPLET_NAME=${DROPLET_NAME} $doctlbin compute ssh-key create ${DROPLET_NAME} --public-key "$(cat ~/.ssh/id_rsa.pub)"
   - sleep 1
-  - DROPLET_NAME=${DROPLET_NAME} $doctlbin compute droplet create ${DROPLET_NAME} --region fra1 --image debian-8-x64 --size 8gb --ssh-keys $($doctlbin compute ssh-key list | grep ${DROPLET_NAME} | awk -F ' ' '{print $1}')
+  - DROPLET_NAME=${DROPLET_NAME} $doctlbin compute droplet create ${DROPLET_NAME} --region ams3 --image debian-8-x64 --size 8gb --ssh-keys $($doctlbin compute ssh-key list | grep ${DROPLET_NAME} | awk -F ' ' '{print $1}')
 
 after_script:
   - $doctlbin compute droplet delete ${DROPLET_NAME} -f
