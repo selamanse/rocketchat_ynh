@@ -15,7 +15,7 @@ install:
   - echo "Host *" | tee -a ~/.ssh/config # to disable authenticity of host input y/n
   - echo "   StrictHostKeyChecking=no" | tee -a ~/.ssh/config # to disable authenticity of host input y/n
   - echo "   UserKnownHostsFile=/dev/null" | tee -a ~/.ssh/config # to disable authenticity of host input y/n
-  - curl -L https://github.com/digitalocean/doctl/releases/download/v1.7.1/doctl-1.7.1-linux-amd64.tar.gz  | tar xz
+  - curl -L https://github.com/digitalocean/doctl/releases/download/v1.8.0/doctl-1.8.0-linux-amd64.tar.gz  | tar xz
   - DROPLET_NAME=${DROPLET_NAME} $doctlbin compute ssh-key create ${DROPLET_NAME} --public-key "$(cat ~/.ssh/id_rsa.pub)"
   - sleep 1
   - DROPLET_NAME=${DROPLET_NAME} $doctlbin compute droplet create ${DROPLET_NAME} --region fra1 --image debian-8-x64 --size 8gb --ssh-keys $($doctlbin compute ssh-key list | grep ${DROPLET_NAME} | awk -F ' ' '{print $1}')
