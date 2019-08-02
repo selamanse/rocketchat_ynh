@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Helper to add a repos quickly and without problem. It create a repos.list in $etc/apt/sources.list.d/. It doesn't update the repos, so it must be used with the ynh_add_dependencies.
+# usage : ynh_add_repos nameoftherepos url
+# URL IS SOMETHING LIKE : "deb $mirrorurl $prefix(stable or jessie...) $otherprefix(main, non-free, or somting like that)"
+ynh_add_repo(){
+  local name_repos="$1"
+  local url_repos="$2"
+  echo "# $name_repos
+    ${url_repos}" 
+    > "/etc/apt/sources.list.d/$name_repos.list"
+}

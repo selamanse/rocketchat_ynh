@@ -1,5 +1,7 @@
 # common.sh
 
+source ynh_add_repo
+
 ROCKETCHAT_VERSION=0.73.2
 ROCKETCHAT_SHASUM=3dc3eb11f383f7b72b0f23fedb305b6a566fa536a1e5087a4398255deeb864d8
 ROCKETCHAT_DOWNLOAD_URI=https://releases.rocket.chat/${ROCKETCHAT_VERSION}/download
@@ -63,7 +65,7 @@ installdeps(){
   else
     #Install mongodb for debian x86/x64
     sudo apt-get install dirmngr && sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
-    echo "deb http://repo.mongodb.org/apt/debian ${DEBIAN_ISSUE}/mongodb-org/4.0 main" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.0.list
+    ynh_add_repo "mongodb-org-4.0" "deb http://repo.mongodb.org/apt/debian ${DEBIAN_ISSUE}/mongodb-org/4.0 main"
     sudo apt-get update
     sudo apt-get install -y mongodb-org
 

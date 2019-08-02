@@ -9,6 +9,7 @@ set -eu
 
 source /usr/share/yunohost/helpers
 source ./_common.sh
+source ynh_exec_as
 
 #=================================================
 # MANAGE SCRIPT FAILURE
@@ -122,7 +123,7 @@ chown -R $serviceuser: $final_path
 
 cd $final_path/programs/server/
 
-sudo -u $serviceuser npm install --production
+ynh_exec_as $serviceuser npm install --production
 
 cd $workdir
 
@@ -146,5 +147,3 @@ mongo < ../conf/rocketchat_ldap.js
 systemctl restart $app.service
 
 waitforservice
-
-yunohost app ssowatconf
