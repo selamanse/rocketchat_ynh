@@ -66,7 +66,6 @@ installdeps(){
     #Install mongodb for debian x86/x64
     sudo apt-get install dirmngr && sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 9DA31620334BD75D9DCB49F368818C72E52529D4
     ynh_add_repo "mongodb-org-4.0" "deb http://repo.mongodb.org/apt/debian ${DEBIAN_ISSUE}/mongodb-org/4.0 main"
-    sudo apt-get update
     sudo apt-get install -y mongodb-org
 
     # start mongodb service

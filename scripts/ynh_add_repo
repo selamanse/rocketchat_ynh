@@ -7,6 +7,6 @@ ynh_add_repo(){
   local name_repos="$1"
   local url_repos="$2"
   echo "# $name_repos
-    ${url_repos}" 
-    > "/etc/apt/sources.list.d/$name_repos.list"
+    ${url_repos}" > "/etc/apt/sources.list.d/$name_repos.list"
+  apt-get update
 }
