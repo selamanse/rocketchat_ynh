@@ -43,18 +43,19 @@ jobs:
         env:
           SSH_CMD: doctl compute ssh ${{ env.DROPLET_NAME }} --ssh-command
         run: |
-          $SSH_CMD "apt-get update -y"
-          $SSH_CMD "apt-get install git -y"
-          $SSH_CMD "rm -rf package_check"
-          $SSH_CMD "rm -rf package"
-          $SSH_CMD "git clone https://github.com/YunoHost/package_check"
-            - cat test/pkgchk-config | $dropletsshcmd "cat > package_check/config"
-          $SSH_CMD "git clone https://github.com/${GITHUB_REPOSITORY} package"
-          $SSH_CMD "cd package && git checkout ${GITHUB_SHA} && cd .."
-          $SSH_CMD "./package_check/package_check.sh --build-lxc --bash-mode package"
-          $SSH_CMD "cat ./package_check/Complete.log"
+          ${{ env.SSH_CMD }} "apt-get update -y"
+          ${{ env.SSH_CMD }} "apt-get install git -y"
+          ${{ env.SSH_CMD }} "rm -rf package_check"
+          ${{ env.SSH_CMD }} "rm -rf package"
+          ${{ env.SSH_CMD }} "git clone https://github.com/YunoHost/package_check"
+          cat test/pkgchk-config | {{ env.SSH_CMD }} "cat > package_check/config"
+          ${{ env.SSH_CMD }} "git clone https://github.com/${GITHUB_REPOSITORY} package"
+          ${{ env.SSH_CMD }} "cd package && git checkout ${GITHUB_SHA} && cd .."
+          ${{ env.SSH_CMD }} "./package_check/package_check.sh --build-lxc --bash-mode package"
+          ${{ env.SSH_CMD }} "cat ./package_check/Complete.log"
 
       - name: Cleanup
+        if: always()
         run: |
           doctl compute droplet delete ${{ env.DROPLET_NAME }} -f
-          doctl compute ssh-key delete $(doctl compute ssh-key list | grep ${{ env.DROPLET_NAME }} | awk -F ' ' '{print $1}') -f
+          doctl compute ssh-key delete $(doctl compute ssh-key list | grep ${{ env.DROPLET_NAME }} | awk -F ' ' '{print $1}') -f    
