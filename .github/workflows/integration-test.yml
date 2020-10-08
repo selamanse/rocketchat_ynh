@@ -9,7 +9,6 @@ on:
 env:
   DROPLET_SHUTDOWN_TIMEOUT: 120
   DROPLET_NAME: ynh26-pkgchk-${{ github.run_id }}
-  SSH_CMD: "doctl compute ssh ${DROPLET_NAME} --ssh-command"
 
 jobs:
   install:
@@ -36,11 +35,13 @@ jobs:
         run: |
           doctl compute ssh-key create ${{ env.DROPLET_NAME }} --no-header --public-key "$(cat ~/.ssh/id_rsa.pub)"
           sleep 2
-          doctl compute droplet create ${DROPLET_NAME} --wait --region fra1 --image debian-9-x64 --size 4gb --ssh-keys $(doctl compute ssh-key list --no-header | grep ${DROPLET_NAME} | awk -F ' ' '{print $3}'),$(${DOCTL} compute ssh-key list --no-header | grep selamanse | awk -F ' ' '{print $3}')
+          doctl compute droplet create ${{ env.DROPLET_NAME }} --wait --region fra1 --image debian-9-x64 --size 4gb --ssh-keys $(doctl compute ssh-key list --no-header | grep ${{ env.DROPLET_NAME }} | awk -F ' ' '{print $3}'),$(doctl compute ssh-key list --no-header | grep selamanse | awk -F ' ' '{print $3}')
           sleep 15
-          $SSH_CMD "shutdown -h ${DROPLET_SHUTDOWN_TIMEOUT}"
+          doctl compute ssh ${{ env.DROPLET_NAME }} --ssh-command "shutdown -h ${DROPLET_SHUTDOWN_TIMEOUT}"
 
       - name: Run package check
+        env:
+          SSH_CMD: doctl compute ssh ${{ env.DROPLET_NAME }} --ssh-command
         run: |
           $SSH_CMD "apt-get update -y"
           $SSH_CMD "apt-get install git -y"
@@ -55,5 +56,5 @@ jobs:
 
       - name: Cleanup
         run: |
-          doctl compute droplet delete ${DROPLET_NAME} -f
-          doctl compute ssh-key delete $(${DOCTL} compute ssh-key list | grep ${DROPLET_NAME} | awk -F ' ' '{print $1}') -f
+          doctl compute droplet delete ${{ env.DROPLET_NAME }} -f
+          doctl compute ssh-key delete $(doctl compute ssh-key list | grep ${{ env.DROPLET_NAME }} | awk -F ' ' '{print $1}') -f
