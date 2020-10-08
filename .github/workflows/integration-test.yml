@@ -9,7 +9,7 @@ on:
 env:
   DROPLET_SHUTDOWN_TIMEOUT: 120
   DROPLET_NAME: ynh26-pkgchk-${GITHUB_RUN_ID}
-  SSH_CMD: doctl compute ssh $DROPLET_NAME --ssh-command
+  SSH_CMD: "doctl compute ssh ${DROPLET_NAME} --ssh-command"
 
 jobs:
   install:
@@ -34,7 +34,7 @@ jobs:
 
       - name: Setup droplet
         run: |
-          doctl compute ssh-key create ${DROPLET_NAME} --no-header --public-key "$(cat ~/.ssh/id_rsa.pub)"
+          doctl compute ssh-key create ${{ env.DROPLET_NAME }} --no-header --public-key "$(cat ~/.ssh/id_rsa.pub)"
           sleep 2
           doctl compute droplet create ${DROPLET_NAME} --wait --region fra1 --image debian-9-x64 --size 4gb --ssh-keys $(doctl compute ssh-key list --no-header | grep ${DROPLET_NAME} | awk -F ' ' '{print $3}'),$(${DOCTL} compute ssh-key list --no-header | grep selamanse | awk -F ' ' '{print $3}')
           sleep 15
