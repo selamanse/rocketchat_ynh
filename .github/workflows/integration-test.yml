@@ -8,7 +8,7 @@ on:
 
 env:
   DROPLET_SHUTDOWN_TIMEOUT: 120
-  DROPLET_NAME: ynh26-pkgchk-${GITHUB_RUN_ID}
+  DROPLET_NAME: ynh26-pkgchk-${{ github.run_id }}
   SSH_CMD: "doctl compute ssh ${DROPLET_NAME} --ssh-command"
 
 jobs:
