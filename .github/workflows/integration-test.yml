@@ -48,7 +48,7 @@ jobs:
           ${{ env.SSH_CMD }} "rm -rf package_check"
           ${{ env.SSH_CMD }} "rm -rf package"
           ${{ env.SSH_CMD }} "git clone https://github.com/YunoHost/package_check"
-          cat test/pkgchk-config | {{ env.SSH_CMD }} "cat > package_check/config"
+          cat test/pkgchk-config | ${{ env.SSH_CMD }} "cat > package_check/config"
           ${{ env.SSH_CMD }} "git clone https://github.com/${GITHUB_REPOSITORY} package"
           ${{ env.SSH_CMD }} "cd package && git checkout ${GITHUB_SHA} && cd .."
           ${{ env.SSH_CMD }} "./package_check/package_check.sh --build-lxc --bash-mode package"
