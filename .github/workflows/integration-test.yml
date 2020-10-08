@@ -8,8 +8,8 @@ on:
 
 env:
   DROPLET_SHUTDOWN_TIMEOUT: 120
-  DROPLET_NAME: "ynh26-pkgchk-${GITHUB_RUN_ID}"
-  SSH_CMD: "./doctl compute ssh ${DROPLET_NAME} --ssh-command"
+  DROPLET_NAME: "ynh26-pkgchk-${{ env.GITHUB_RUN_ID }}"
+  SSH_CMD: "./doctl compute ssh ${{ env.DROPLET_NAME }} --ssh-command"
 
 jobs:
   install:
